@@ -1,0 +1,2558 @@
+{
+  "schema_version": "2.1.0",
+  "milestone": 5,
+  "units": "meters",
+  "coordinate_system": {
+    "source": "image",
+    "world_axis": "Y_UP",
+    "image_axis": "X_RIGHT_Y_DOWN",
+    "origin_offset_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "px_per_m": 100.0
+  },
+  "building": {
+    "width_m": 10.24,
+    "depth_m": 7.96,
+    "wall_height_m": 2.8,
+    "floor_height_m": 0.1
+  },
+  "metadata": {
+    "source": "Gemini_Generated_Image_70psmj70psmj70ps.png",
+    "source_path": "C:/Users/HP/Downloads/blueprints/Gemini_Generated_Image_70psmj70psmj70ps.png",
+    "image_size": {
+      "width": 1024,
+      "height": 796
+    },
+    "scale": "1:100",
+    "exported_at_utc": "2026-10-12T19:36:06.088210+00:00"
+  },
+  "statistics": {
+    "total_walls": 76,
+    "outer_walls": 43,
+    "internal_walls": 33,
+    "total_rooms": 7,
+    "total_doors": 1,
+    "total_windows": 18,
+    "total_furniture": 15
+  },
+  "player_spawn": {
+    "room_id": null,
+    "room_label": "Exterior Ground",
+    "position_m": [
+      5.12,
+      0.0,
+      -4.5
+    ],
+    "rotation_deg": 0.0
+  },
+  "validation": {
+    "is_valid": true,
+    "status": "VALID",
+    "error_count": 0,
+    "warning_count": 1,
+    "errors": [],
+    "warnings": [
+      "Metric scale not detected in blueprint OCR. Used fallback 100 px/m."
+    ],
+    "summary": {
+      "total_walls": 76,
+      "total_rooms": 7,
+      "total_doors": 1,
+      "total_windows": 18,
+      "px_per_m": 100.0
+    }
+  },
+  "walls": [
+    {
+      "id": "4c2e42e9",
+      "start": [
+        456.7,
+        729.5
+      ],
+      "end": [
+        956.7,
+        730.3
+      ],
+      "length_px": 499.95,
+      "thickness_px": 3.0,
+      "angle_deg": 0.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "6ca3dffd",
+      "start": [
+        66.5,
+        76.0
+      ],
+      "end": [
+        800.0,
+        72.0
+      ],
+      "length_px": 733.52,
+      "thickness_px": 4.0,
+      "angle_deg": 179.7,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "22fca009",
+      "start": [
+        899.5,
+        72.0
+      ],
+      "end": [
+        957.5,
+        74.5
+      ],
+      "length_px": 58.05,
+      "thickness_px": 4.0,
+      "angle_deg": 2.5,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "836db9b1",
+      "start": [
+        104.5,
+        228.5
+      ],
+      "end": [
+        285.5,
+        225.5
+      ],
+      "length_px": 181.02,
+      "thickness_px": 8.0,
+      "angle_deg": 179.1,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "1bf29f3e",
+      "start": [
+        340.7,
+        226.6
+      ],
+      "end": [
+        543.0,
+        228.0
+      ],
+      "length_px": 202.33,
+      "thickness_px": 8.0,
+      "angle_deg": 0.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "181c1cd4",
+      "start": [
+        67.9,
+        556.9
+      ],
+      "end": [
+        286.5,
+        558.5
+      ],
+      "length_px": 218.6,
+      "thickness_px": 7.0,
+      "angle_deg": 0.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "c2b32b29",
+      "start": [
+        94.8,
+        381.8
+      ],
+      "end": [
+        127.2,
+        374.2
+      ],
+      "length_px": 33.27,
+      "thickness_px": 5.0,
+      "angle_deg": 166.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "ee1a8f1c",
+      "start": [
+        637.0,
+        385.5
+      ],
+      "end": [
+        727.0,
+        386.3
+      ],
+      "length_px": 89.99,
+      "thickness_px": 8.0,
+      "angle_deg": 0.5,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "e6323fb9",
+      "start": [
+        803.0,
+        387.1
+      ],
+      "end": [
+        919.0,
+        389.9
+      ],
+      "length_px": 115.99,
+      "thickness_px": 8.0,
+      "angle_deg": 1.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "ca84c315",
+      "start": [
+        637.5,
+        297.0
+      ],
+      "end": [
+        729.5,
+        295.5
+      ],
+      "length_px": 92.01,
+      "thickness_px": 8.0,
+      "angle_deg": 179.1,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "d8d7e0de",
+      "start": [
+        782.0,
+        297.0
+      ],
+      "end": [
+        954.9,
+        296.9
+      ],
+      "length_px": 172.88,
+      "thickness_px": 8.0,
+      "angle_deg": 180.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "74b5f375",
+      "start": [
+        342.5,
+        451.0
+      ],
+      "end": [
+        378.0,
+        451.0
+      ],
+      "length_px": 35.5,
+      "thickness_px": 7.0,
+      "angle_deg": 0.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "cec904a6",
+      "start": [
+        283.5,
+        171.0
+      ],
+      "end": [
+        343.3,
+        171.0
+      ],
+      "length_px": 59.83,
+      "thickness_px": 8.0,
+      "angle_deg": 0.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "d07259e6",
+      "start": [
+        427.8,
+        675.2
+      ],
+      "end": [
+        457.7,
+        676.8
+      ],
+      "length_px": 30.03,
+      "thickness_px": 3.0,
+      "angle_deg": 3.2,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "b5784fc7",
+      "start": [
+        70.0,
+        332.7
+      ],
+      "end": [
+        119.0,
+        336.5
+      ],
+      "length_px": 49.16,
+      "thickness_px": 7.0,
+      "angle_deg": 4.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "f4c12c00",
+      "start": [
+        913.0,
+        71.0
+      ],
+      "end": [
+        957.5,
+        74.5
+      ],
+      "length_px": 44.64,
+      "thickness_px": 3.0,
+      "angle_deg": 4.5,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "086b9b3f",
+      "start": [
+        956.0,
+        587.0
+      ],
+      "end": [
+        956.7,
+        730.3
+      ],
+      "length_px": 143.33,
+      "thickness_px": 10.0,
+      "angle_deg": 89.7,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "8cedab23",
+      "start": [
+        284.0,
+        294.0
+      ],
+      "end": [
+        285.5,
+        225.5
+      ],
+      "length_px": 68.53,
+      "thickness_px": 7.0,
+      "angle_deg": 91.3,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "acd32108",
+      "start": [
+        65.8,
+        583.1
+      ],
+      "end": [
+        66.1,
+        639.0
+      ],
+      "length_px": 55.98,
+      "thickness_px": 10.0,
+      "angle_deg": 89.7,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "f781247a",
+      "start": [
+        342.0,
+        74.0
+      ],
+      "end": [
+        343.3,
+        171.0
+      ],
+      "length_px": 97.01,
+      "thickness_px": 7.0,
+      "angle_deg": 89.2,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "03bae1fe",
+      "start": [
+        66.5,
+        76.0
+      ],
+      "end": [
+        68.4,
+        181.1
+      ],
+      "length_px": 105.14,
+      "thickness_px": 10.0,
+      "angle_deg": 89.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "2979012a",
+      "start": [
+        67.8,
+        197.1
+      ],
+      "end": [
+        66.6,
+        229.9
+      ],
+      "length_px": 32.81,
+      "thickness_px": 3.0,
+      "angle_deg": 92.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "ea656a00",
+      "start": [
+        67.2,
+        260.0
+      ],
+      "end": [
+        70.0,
+        332.7
+      ],
+      "length_px": 72.77,
+      "thickness_px": 10.0,
+      "angle_deg": 87.8,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "dc657905",
+      "start": [
+        457.6,
+        451.5
+      ],
+      "end": [
+        456.9,
+        493.0
+      ],
+      "length_px": 41.51,
+      "thickness_px": 8.0,
+      "angle_deg": 91.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "f45796d5",
+      "start": [
+        457.8,
+        543.0
+      ],
+      "end": [
+        457.1,
+        561.0
+      ],
+      "length_px": 18.01,
+      "thickness_px": 7.0,
+      "angle_deg": 92.2,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "c99148df",
+      "start": [
+        459.0,
+        612.0
+      ],
+      "end": [
+        456.7,
+        729.5
+      ],
+      "length_px": 117.52,
+      "thickness_px": 7.0,
+      "angle_deg": 91.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "006f5d92",
+      "start": [
+        957.5,
+        74.5
+      ],
+      "end": [
+        955.0,
+        239.0
+      ],
+      "length_px": 164.52,
+      "thickness_px": 10.0,
+      "angle_deg": 90.9,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "acd1f3b4",
+      "start": [
+        956.4,
+        675.0
+      ],
+      "end": [
+        956.7,
+        730.3
+      ],
+      "length_px": 55.34,
+      "thickness_px": 10.0,
+      "angle_deg": 89.7,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "5e93e15f",
+      "start": [
+        67.9,
+        556.9
+      ],
+      "end": [
+        66.5,
+        730.5
+      ],
+      "length_px": 173.59,
+      "thickness_px": 10.0,
+      "angle_deg": 90.5,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "be7e0347",
+      "start": [
+        637.5,
+        297.0
+      ],
+      "end": [
+        637.0,
+        318.0
+      ],
+      "length_px": 21.01,
+      "thickness_px": 7.0,
+      "angle_deg": 91.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "b7267de2",
+      "start": [
+        637.0,
+        366.0
+      ],
+      "end": [
+        637.0,
+        385.5
+      ],
+      "length_px": 19.55,
+      "thickness_px": 7.0,
+      "angle_deg": 89.9,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "d9534d8b",
+      "start": [
+        284.0,
+        443.0
+      ],
+      "end": [
+        286.5,
+        558.5
+      ],
+      "length_px": 115.53,
+      "thickness_px": 7.0,
+      "angle_deg": 88.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "f106e819",
+      "start": [
+        546.0,
+        74.0
+      ],
+      "end": [
+        543.0,
+        228.0
+      ],
+      "length_px": 154.03,
+      "thickness_px": 7.0,
+      "angle_deg": 91.1,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "bf0884eb",
+      "start": [
+        802.0,
+        444.0
+      ],
+      "end": [
+        802.0,
+        535.5
+      ],
+      "length_px": 91.5,
+      "thickness_px": 8.0,
+      "angle_deg": 90.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "0f1d9762",
+      "start": [
+        729.5,
+        295.5
+      ],
+      "end": [
+        727.0,
+        386.3
+      ],
+      "length_px": 90.86,
+      "thickness_px": 8.0,
+      "angle_deg": 91.6,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "8506269d",
+      "start": [
+        456.7,
+        729.5
+      ],
+      "end": [
+        715.2,
+        725.0
+      ],
+      "length_px": 258.48,
+      "thickness_px": 4.0,
+      "angle_deg": 179.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "56c452d0",
+      "start": [
+        302.0,
+        617.1
+      ],
+      "end": [
+        340.5,
+        615.1
+      ],
+      "length_px": 38.63,
+      "thickness_px": 7.0,
+      "angle_deg": 177.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "82bf6ced",
+      "start": [
+        715.0,
+        725.0
+      ],
+      "end": [
+        856.0,
+        730.2
+      ],
+      "length_px": 141.1,
+      "thickness_px": 3.0,
+      "angle_deg": 2.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "afe84522",
+      "start": [
+        277.8,
+        731.6
+      ],
+      "end": [
+        344.5,
+        730.9
+      ],
+      "length_px": 66.7,
+      "thickness_px": 3.0,
+      "angle_deg": 179.4,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "623347e7",
+      "start": [
+        457.1,
+        561.0
+      ],
+      "end": [
+        637.0,
+        557.1
+      ],
+      "length_px": 179.96,
+      "thickness_px": 7.0,
+      "angle_deg": 178.7,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "9f850d69",
+      "start": [
+        637.0,
+        450.0
+      ],
+      "end": [
+        637.0,
+        557.1
+      ],
+      "length_px": 107.07,
+      "thickness_px": 8.0,
+      "angle_deg": 90.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "12870a1d",
+      "start": [
+        637.0,
+        557.1
+      ],
+      "end": [
+        636.7,
+        726.4
+      ],
+      "length_px": 169.3,
+      "thickness_px": 8.0,
+      "angle_deg": 90.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "96254f79",
+      "start": [
+        181.3,
+        375.2
+      ],
+      "end": [
+        283.1,
+        376.9
+      ],
+      "length_px": 101.81,
+      "thickness_px": 5.0,
+      "angle_deg": 1.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "64e5755f",
+      "start": [
+        282.6,
+        396.0
+      ],
+      "end": [
+        283.1,
+        376.9
+      ],
+      "length_px": 19.05,
+      "thickness_px": 7.0,
+      "angle_deg": 91.5,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "a1833569",
+      "start": [
+        283.1,
+        376.9
+      ],
+      "end": [
+        283.7,
+        350.7
+      ],
+      "length_px": 26.29,
+      "thickness_px": 7.0,
+      "angle_deg": 91.5,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "75402174",
+      "start": [
+        341.9,
+        378.0
+      ],
+      "end": [
+        379.2,
+        378.6
+      ],
+      "length_px": 37.26,
+      "thickness_px": 5.0,
+      "angle_deg": 1.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "70e0470d",
+      "start": [
+        340.7,
+        226.6
+      ],
+      "end": [
+        341.9,
+        378.0
+      ],
+      "length_px": 151.33,
+      "thickness_px": 7.0,
+      "angle_deg": 89.5,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "a2a4fb4d",
+      "start": [
+        341.9,
+        378.0
+      ],
+      "end": [
+        342.5,
+        451.0
+      ],
+      "length_px": 73.04,
+      "thickness_px": 7.0,
+      "angle_deg": 89.5,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "bdb89f0f",
+      "start": [
+        802.0,
+        535.5
+      ],
+      "end": [
+        956.0,
+        536.0
+      ],
+      "length_px": 154.0,
+      "thickness_px": 8.0,
+      "angle_deg": 0.2,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "f4d5e9d5",
+      "start": [
+        956.0,
+        445.0
+      ],
+      "end": [
+        956.0,
+        536.0
+      ],
+      "length_px": 90.99,
+      "thickness_px": 10.0,
+      "angle_deg": 90.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "4e6a9321",
+      "start": [
+        956.0,
+        536.0
+      ],
+      "end": [
+        956.0,
+        571.0
+      ],
+      "length_px": 35.01,
+      "thickness_px": 10.0,
+      "angle_deg": 90.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "1d92d6bd",
+      "start": [
+        457.6,
+        451.5
+      ],
+      "end": [
+        521.0,
+        451.3
+      ],
+      "length_px": 63.43,
+      "thickness_px": 7.0,
+      "angle_deg": 179.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "ee82f41e",
+      "start": [
+        521.0,
+        451.3
+      ],
+      "end": [
+        582.0,
+        451.0
+      ],
+      "length_px": 61.0,
+      "thickness_px": 7.0,
+      "angle_deg": 179.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "178c690e",
+      "start": [
+        521.0,
+        451.3
+      ],
+      "end": [
+        521.0,
+        560.0
+      ],
+      "length_px": 108.74,
+      "thickness_px": 8.0,
+      "angle_deg": 90.0,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "c3a67bd9",
+      "start": [
+        342.4,
+        670.1
+      ],
+      "end": [
+        374.3,
+        672.0
+      ],
+      "length_px": 31.92,
+      "thickness_px": 4.0,
+      "angle_deg": 3.4,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "6401b1e1",
+      "start": [
+        338.6,
+        558.7
+      ],
+      "end": [
+        342.4,
+        670.1
+      ],
+      "length_px": 111.54,
+      "thickness_px": 7.0,
+      "angle_deg": 88.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "aa8fa66f",
+      "start": [
+        342.4,
+        670.1
+      ],
+      "end": [
+        344.5,
+        730.9
+      ],
+      "length_px": 60.81,
+      "thickness_px": 7.0,
+      "angle_deg": 88.0,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "d2d722ec",
+      "start": [
+        955.9,
+        181.0
+      ],
+      "end": [
+        955.7,
+        370.9
+      ],
+      "length_px": 189.85,
+      "thickness_px": 10.0,
+      "angle_deg": 90.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "1911d1e8",
+      "start": [
+        955.7,
+        370.9
+      ],
+      "end": [
+        955.9,
+        390.7
+      ],
+      "length_px": 19.82,
+      "thickness_px": 10.0,
+      "angle_deg": 89.4,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "04001ddf",
+      "start": [
+        70.0,
+        332.7
+      ],
+      "end": [
+        68.8,
+        387.9
+      ],
+      "length_px": 55.23,
+      "thickness_px": 10.0,
+      "angle_deg": 91.2,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "ea32e2ba",
+      "start": [
+        68.8,
+        387.9
+      ],
+      "end": [
+        66.0,
+        565.9
+      ],
+      "length_px": 177.99,
+      "thickness_px": 10.0,
+      "angle_deg": 90.9,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "e6b07d85",
+      "start": [
+        68.8,
+        387.9
+      ],
+      "end": [
+        127.0,
+        387.0
+      ],
+      "length_px": 58.2,
+      "thickness_px": 8.0,
+      "angle_deg": 179.1,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "984a6344",
+      "start": [
+        180.6,
+        229.9
+      ],
+      "end": [
+        181.0,
+        375.1
+      ],
+      "length_px": 145.18,
+      "thickness_px": 7.0,
+      "angle_deg": 89.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "c84bd32e",
+      "start": [
+        149.0,
+        227.8
+      ],
+      "end": [
+        180.8,
+        229.9
+      ],
+      "length_px": 31.82,
+      "thickness_px": 8.0,
+      "angle_deg": 3.9,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "7f2e3ac0",
+      "start": [
+        180.8,
+        229.9
+      ],
+      "end": [
+        248.0,
+        226.1
+      ],
+      "length_px": 67.3,
+      "thickness_px": 8.0,
+      "angle_deg": 176.8,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "e140e443",
+      "start": [
+        249.0,
+        730.6
+      ],
+      "end": [
+        277.8,
+        731.6
+      ],
+      "length_px": 28.87,
+      "thickness_px": 3.0,
+      "angle_deg": 2.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "089f38f8",
+      "start": [
+        277.8,
+        731.6
+      ],
+      "end": [
+        278.1,
+        710.6
+      ],
+      "length_px": 21.0,
+      "thickness_px": 40.0,
+      "angle_deg": 90.8,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "12944173",
+      "start": [
+        803.0,
+        387.1
+      ],
+      "end": [
+        955.9,
+        390.7
+      ],
+      "length_px": 152.97,
+      "thickness_px": 8.0,
+      "angle_deg": 1.4,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "b7fb439e",
+      "start": [
+        955.9,
+        390.7
+      ],
+      "end": [
+        957.0,
+        486.0
+      ],
+      "length_px": 95.31,
+      "thickness_px": 10.0,
+      "angle_deg": 89.4,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "9657275d",
+      "start": [
+        66.6,
+        229.9
+      ],
+      "end": [
+        104.5,
+        228.5
+      ],
+      "length_px": 37.93,
+      "thickness_px": 8.0,
+      "angle_deg": 177.9,
+      "wall_type": "internal",
+      "confidence": 1.0
+    },
+    {
+      "id": "87c67287",
+      "start": [
+        65.8,
+        162.7
+      ],
+      "end": [
+        66.6,
+        229.9
+      ],
+      "length_px": 67.25,
+      "thickness_px": 9.0,
+      "angle_deg": 89.3,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "a3475ef8",
+      "start": [
+        66.6,
+        229.9
+      ],
+      "end": [
+        68.9,
+        305.3
+      ],
+      "length_px": 75.48,
+      "thickness_px": 9.0,
+      "angle_deg": 88.2,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "ee849200",
+      "start": [
+        89.0,
+        730.5
+      ],
+      "end": [
+        105.8,
+        730.6
+      ],
+      "length_px": 16.79,
+      "thickness_px": 3.0,
+      "angle_deg": 0.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "fc2e84cc",
+      "start": [
+        105.8,
+        730.6
+      ],
+      "end": [
+        236.0,
+        730.7
+      ],
+      "length_px": 130.2,
+      "thickness_px": 3.0,
+      "angle_deg": 0.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "9dc57200",
+      "start": [
+        66.5,
+        730.5
+      ],
+      "end": [
+        105.8,
+        730.6
+      ],
+      "length_px": 39.29,
+      "thickness_px": 3.0,
+      "angle_deg": 0.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    },
+    {
+      "id": "56951d73",
+      "start": [
+        105.8,
+        730.6
+      ],
+      "end": [
+        277.8,
+        730.8
+      ],
+      "length_px": 172.06,
+      "thickness_px": 3.0,
+      "angle_deg": 0.1,
+      "wall_type": "outer",
+      "confidence": 1.0
+    }
+  ],
+  "doors": [
+    {
+      "id": "ae5b0b3f",
+      "center": [
+        341.5,
+        332.6
+      ],
+      "width_px": 90.0,
+      "height_px": 53.6,
+      "angle_deg": 89.5,
+      "has_arc": false,
+      "source": "main_entrance",
+      "confidence": 0.85
+    }
+  ],
+  "windows": [
+    {
+      "id": "569d1051",
+      "center": [
+        205.5,
+        730.7
+      ],
+      "width_px": 116.8,
+      "height_px": 3.6,
+      "angle_deg": 0.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "531111b8",
+      "center": [
+        706.7,
+        729.9
+      ],
+      "width_px": 210.0,
+      "height_px": 3.6,
+      "angle_deg": 0.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "2744fc6d",
+      "center": [
+        433.2,
+        74.0
+      ],
+      "width_px": 220.0,
+      "height_px": 4.8,
+      "angle_deg": 179.7,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "854d677f",
+      "center": [
+        341.6,
+        644.8
+      ],
+      "width_px": 72.4,
+      "height_px": 8.4,
+      "angle_deg": 88.0,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "87e00e54",
+      "center": [
+        955.7,
+        333.5
+      ],
+      "width_px": 128.1,
+      "height_px": 12.0,
+      "angle_deg": 90.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "4403f300",
+      "center": [
+        956.0,
+        508.0
+      ],
+      "width_px": 60.0,
+      "height_px": 12.0,
+      "angle_deg": 90.0,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "0f89d179",
+      "center": [
+        956.3,
+        658.7
+      ],
+      "width_px": 60.2,
+      "height_px": 12.0,
+      "angle_deg": 89.7,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "7e6b0aa6",
+      "center": [
+        66.6,
+        229.9
+      ],
+      "width_px": 60.0,
+      "height_px": 10.8,
+      "angle_deg": 92.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "98a6f51a",
+      "center": [
+        67.8,
+        449.3
+      ],
+      "width_px": 98.0,
+      "height_px": 12.0,
+      "angle_deg": 90.9,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "d31a8866",
+      "center": [
+        342.7,
+        122.5
+      ],
+      "width_px": 60.0,
+      "height_px": 8.4,
+      "angle_deg": 89.2,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "4b0bf55b",
+      "center": [
+        67.4,
+        128.4
+      ],
+      "width_px": 60.0,
+      "height_px": 12.0,
+      "angle_deg": 89.0,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "6240f700",
+      "center": [
+        457.9,
+        670.7
+      ],
+      "width_px": 60.0,
+      "height_px": 8.4,
+      "angle_deg": 91.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "a14f0950",
+      "center": [
+        956.2,
+        156.8
+      ],
+      "width_px": 69.1,
+      "height_px": 12.0,
+      "angle_deg": 90.9,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "ea3e1dd7",
+      "center": [
+        67.2,
+        637.8
+      ],
+      "width_px": 77.9,
+      "height_px": 12.0,
+      "angle_deg": 90.5,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "2957b2a0",
+      "center": [
+        637.0,
+        585.5
+      ],
+      "width_px": 113.8,
+      "height_px": 9.6,
+      "angle_deg": 90.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "4619d5c6",
+      "center": [
+        585.9,
+        727.3
+      ],
+      "width_px": 108.5,
+      "height_px": 4.8,
+      "angle_deg": 179.0,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "14292029",
+      "center": [
+        296.8,
+        731.4
+      ],
+      "width_px": 60.0,
+      "height_px": 3.6,
+      "angle_deg": 179.4,
+      "source": "synthesizer",
+      "confidence": 0.92
+    },
+    {
+      "id": "2cc34447",
+      "center": [
+        785.4,
+        727.6
+      ],
+      "width_px": 60.0,
+      "height_px": 3.6,
+      "angle_deg": 2.1,
+      "source": "synthesizer",
+      "confidence": 0.92
+    }
+  ],
+  "furniture": [
+    {
+      "id": "0372e272",
+      "class": "bed",
+      "center": [
+        490.3,
+        246.6
+      ],
+      "bbox": [
+        420,
+        157,
+        140,
+        150
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "double_bed",
+      "confidence": 0.95
+    },
+    {
+      "id": "9f24b146",
+      "class": "nightstand",
+      "center": [
+        410.4,
+        167.4
+      ],
+      "bbox": [
+        396,
+        157,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    },
+    {
+      "id": "eb8d47c4",
+      "class": "nightstand",
+      "center": [
+        570.4,
+        167.4
+      ],
+      "bbox": [
+        564,
+        157,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    },
+    {
+      "id": "d2d03aa8",
+      "class": "bed",
+      "center": [
+        189.0,
+        641.3
+      ],
+      "bbox": [
+        138,
+        603,
+        100,
+        75
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "double_bed",
+      "confidence": 0.95
+    },
+    {
+      "id": "98b06e6c",
+      "class": "nightstand",
+      "center": [
+        128.8,
+        613.8
+      ],
+      "bbox": [
+        114,
+        603,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    },
+    {
+      "id": "25744e36",
+      "class": "nightstand",
+      "center": [
+        249.1,
+        613.8
+      ],
+      "bbox": [
+        243,
+        603,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    },
+    {
+      "id": "4f456290",
+      "class": "kitchen_counter",
+      "center": [
+        183.1,
+        125
+      ],
+      "bbox": [
+        105,
+        105,
+        156,
+        40
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "kitchen",
+      "sub_type": "countertop",
+      "confidence": 0.95
+    },
+    {
+      "id": "e438f7dc",
+      "class": "sink",
+      "center": [
+        213.5,
+        122
+      ],
+      "bbox": [
+        196,
+        107,
+        35,
+        30
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "kitchen",
+      "sub_type": "kitchen_sink",
+      "confidence": 0.92
+    },
+    {
+      "id": "528dc175",
+      "class": "toilet",
+      "center": [
+        391,
+        126
+      ],
+      "bbox": [
+        376,
+        105,
+        30,
+        42
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bathroom",
+      "sub_type": "flush_toilet",
+      "confidence": 0.95
+    },
+    {
+      "id": "0f845331",
+      "class": "sink",
+      "center": [
+        393,
+        170
+      ],
+      "bbox": [
+        376,
+        155,
+        35,
+        30
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bathroom",
+      "sub_type": "vanity_basin",
+      "confidence": 0.92
+    },
+    {
+      "id": "e7f87b94",
+      "class": "toilet",
+      "center": [
+        119,
+        489
+      ],
+      "bbox": [
+        104,
+        468,
+        30,
+        42
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bathroom",
+      "sub_type": "flush_toilet",
+      "confidence": 0.95
+    },
+    {
+      "id": "4574cd08",
+      "class": "sink",
+      "center": [
+        121,
+        533
+      ],
+      "bbox": [
+        104,
+        518,
+        35,
+        30
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bathroom",
+      "sub_type": "vanity_basin",
+      "confidence": 0.92
+    },
+    {
+      "id": "0cf3fb01",
+      "class": "bed",
+      "center": [
+        556.7,
+        641.3
+      ],
+      "bbox": [
+        524,
+        603,
+        65,
+        75
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "double_bed",
+      "confidence": 0.95
+    },
+    {
+      "id": "24aaea32",
+      "class": "nightstand",
+      "center": [
+        514.2,
+        613.8
+      ],
+      "bbox": [
+        500,
+        603,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    },
+    {
+      "id": "8addd8bb",
+      "class": "nightstand",
+      "center": [
+        599.2,
+        613.8
+      ],
+      "bbox": [
+        593,
+        603,
+        20,
+        20
+      ],
+      "rotation_deg": 0.0,
+      "room_label": "bedroom",
+      "sub_type": "side_table",
+      "confidence": 0.9
+    }
+  ],
+  "columns": [],
+  "stairs": [],
+  "text_blocks": [],
+  "rooms": [
+    {
+      "id": "0a9d3301",
+      "room_id": 0,
+      "label": "Open Plan",
+      "centroid": [
+        701.0,
+        393.2
+      ],
+      "area_px": 140592.0,
+      "area_m2": 14.06,
+      "bounding_box": {
+        "x": 308,
+        "y": 93,
+        "width": 623,
+        "height": 610
+      },
+      "polygon_points": [
+        [
+          930.0,
+          95.0
+        ],
+        [
+          571.0,
+          95.0
+        ],
+        [
+          681.0,
+          181.0
+        ],
+        [
+          571.0,
+          182.0
+        ],
+        [
+          546.0,
+          370.0
+        ],
+        [
+          396.0,
+          319.0
+        ],
+        [
+          401.0,
+          475.0
+        ],
+        [
+          317.0,
+          473.0
+        ],
+        [
+          309.0,
+          194.0
+        ],
+        [
+          309.0,
+          532.0
+        ],
+        [
+          433.0,
+          522.0
+        ],
+        [
+          438.0,
+          425.0
+        ],
+        [
+          659.0,
+          425.0
+        ],
+        [
+          662.0,
+          701.0
+        ],
+        [
+          929.0,
+          702.0
+        ],
+        [
+          929.0,
+          561.0
+        ],
+        [
+          777.0,
+          558.0
+        ],
+        [
+          798.0,
+          342.0
+        ],
+        [
+          749.0,
+          412.0
+        ],
+        [
+          615.0,
+          412.0
+        ],
+        [
+          612.0,
+          276.0
+        ],
+        [
+          930.0,
+          271.0
+        ]
+      ],
+      "polygon_flat": [
+        930.0,
+        95.0,
+        571.0,
+        95.0,
+        681.0,
+        181.0,
+        571.0,
+        182.0,
+        546.0,
+        370.0,
+        396.0,
+        319.0,
+        401.0,
+        475.0,
+        317.0,
+        473.0,
+        309.0,
+        194.0,
+        309.0,
+        532.0,
+        433.0,
+        522.0,
+        438.0,
+        425.0,
+        659.0,
+        425.0,
+        662.0,
+        701.0,
+        929.0,
+        702.0,
+        929.0,
+        561.0,
+        777.0,
+        558.0,
+        798.0,
+        342.0,
+        749.0,
+        412.0,
+        615.0,
+        412.0,
+        612.0,
+        276.0,
+        930.0,
+        271.0
+      ],
+      "adjacent_room_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "door_ids": [
+        "15cacab4",
+        "1bb4af31",
+        "1d2aef13",
+        "9152e340",
+        "4ee98381"
+      ],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "04ec6845",
+      "room_id": 1,
+      "label": "Living Space",
+      "centroid": [
+        490.4,
+        280.0
+      ],
+      "area_px": 53365.0,
+      "area_m2": 5.34,
+      "bounding_box": {
+        "x": 22,
+        "y": 22,
+        "width": 980,
+        "height": 752
+      },
+      "polygon_points": [
+        [
+          22.0,
+          22.0
+        ],
+        [
+          22.0,
+          773.0
+        ],
+        [
+          160.0,
+          773.0
+        ],
+        [
+          42.0,
+          750.0
+        ],
+        [
+          47.0,
+          42.0
+        ],
+        [
+          977.0,
+          42.0
+        ],
+        [
+          1001.0,
+          773.0
+        ],
+        [
+          1001.0,
+          22.0
+        ]
+      ],
+      "polygon_flat": [
+        22.0,
+        22.0,
+        22.0,
+        773.0,
+        160.0,
+        773.0,
+        42.0,
+        750.0,
+        47.0,
+        42.0,
+        977.0,
+        42.0,
+        1001.0,
+        773.0,
+        1001.0,
+        22.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "42287e6b",
+      "room_id": 2,
+      "label": "Room",
+      "centroid": [
+        189.0,
+        642.0
+      ],
+      "area_px": 22518.0,
+      "area_m2": 2.25,
+      "bounding_box": {
+        "x": 95,
+        "y": 582,
+        "width": 223,
+        "height": 121
+      },
+      "polygon_points": [
+        [
+          95.0,
+          582.0
+        ],
+        [
+          95.0,
+          702.0
+        ],
+        [
+          245.0,
+          702.0
+        ],
+        [
+          249.0,
+          687.0
+        ],
+        [
+          266.0,
+          678.0
+        ],
+        [
+          317.0,
+          686.0
+        ],
+        [
+          317.0,
+          656.0
+        ],
+        [
+          279.0,
+          654.0
+        ],
+        [
+          269.0,
+          582.0
+        ]
+      ],
+      "polygon_flat": [
+        95.0,
+        582.0,
+        95.0,
+        702.0,
+        245.0,
+        702.0,
+        249.0,
+        687.0,
+        266.0,
+        678.0,
+        317.0,
+        686.0,
+        317.0,
+        656.0,
+        279.0,
+        654.0,
+        269.0,
+        582.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        1,
+        3,
+        5,
+        6
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "c6860e1e",
+      "room_id": 3,
+      "label": "Room",
+      "centroid": [
+        194.7,
+        151.2
+      ],
+      "area_px": 14225.0,
+      "area_m2": 1.42,
+      "bounding_box": {
+        "x": 95,
+        "y": 95,
+        "width": 223,
+        "height": 109
+      },
+      "polygon_points": [
+        [
+          317.0,
+          105.0
+        ],
+        [
+          279.0,
+          105.0
+        ],
+        [
+          278.0,
+          95.0
+        ],
+        [
+          198.0,
+          95.0
+        ],
+        [
+          196.0,
+          137.0
+        ],
+        [
+          95.0,
+          136.0
+        ],
+        [
+          95.0,
+          203.0
+        ],
+        [
+          219.0,
+          203.0
+        ],
+        [
+          227.0,
+          173.0
+        ],
+        [
+          258.0,
+          156.0
+        ],
+        [
+          261.0,
+          144.0
+        ],
+        [
+          278.0,
+          144.0
+        ],
+        [
+          279.0,
+          132.0
+        ],
+        [
+          317.0,
+          132.0
+        ]
+      ],
+      "polygon_flat": [
+        317.0,
+        105.0,
+        279.0,
+        105.0,
+        278.0,
+        95.0,
+        198.0,
+        95.0,
+        196.0,
+        137.0,
+        95.0,
+        136.0,
+        95.0,
+        203.0,
+        219.0,
+        203.0,
+        227.0,
+        173.0,
+        258.0,
+        156.0,
+        261.0,
+        144.0,
+        278.0,
+        144.0,
+        279.0,
+        132.0,
+        317.0,
+        132.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "792dd63b",
+      "room_id": 4,
+      "label": "Small Room",
+      "centroid": [
+        461.6,
+        155.4
+      ],
+      "area_px": 11758.0,
+      "area_m2": 1.18,
+      "bounding_box": {
+        "x": 366,
+        "y": 95,
+        "width": 156,
+        "height": 109
+      },
+      "polygon_points": [
+        [
+          366.0,
+          136.0
+        ],
+        [
+          366.0,
+          155.0
+        ],
+        [
+          397.0,
+          172.0
+        ],
+        [
+          406.0,
+          203.0
+        ],
+        [
+          521.0,
+          203.0
+        ],
+        [
+          521.0,
+          95.0
+        ],
+        [
+          457.0,
+          95.0
+        ],
+        [
+          456.0,
+          136.0
+        ]
+      ],
+      "polygon_flat": [
+        366.0,
+        136.0,
+        366.0,
+        155.0,
+        397.0,
+        172.0,
+        406.0,
+        203.0,
+        521.0,
+        203.0,
+        521.0,
+        95.0,
+        457.0,
+        95.0,
+        456.0,
+        136.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        1,
+        3,
+        6
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "628ea180",
+      "room_id": 5,
+      "label": "Small Room",
+      "centroid": [
+        177.8,
+        498.5
+      ],
+      "area_px": 11202.0,
+      "area_m2": 1.12,
+      "bounding_box": {
+        "x": 94,
+        "y": 458,
+        "width": 166,
+        "height": 75
+      },
+      "polygon_points": [
+        [
+          259.0,
+          461.0
+        ],
+        [
+          95.0,
+          466.0
+        ],
+        [
+          95.0,
+          532.0
+        ],
+        [
+          258.0,
+          532.0
+        ]
+      ],
+      "polygon_flat": [
+        259.0,
+        461.0,
+        95.0,
+        466.0,
+        95.0,
+        532.0,
+        258.0,
+        532.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    },
+    {
+      "id": "d51392f5",
+      "room_id": 6,
+      "label": "Small Room",
+      "centroid": [
+        556.7,
+        652.2
+      ],
+      "area_px": 9593.0,
+      "area_m2": 0.96,
+      "bounding_box": {
+        "x": 484,
+        "y": 582,
+        "width": 129,
+        "height": 121
+      },
+      "polygon_points": [
+        [
+          524.0,
+          582.0
+        ],
+        [
+          523.0,
+          605.0
+        ],
+        [
+          586.0,
+          610.0
+        ],
+        [
+          586.0,
+          650.0
+        ],
+        [
+          578.0,
+          664.0
+        ],
+        [
+          505.0,
+          659.0
+        ],
+        [
+          502.0,
+          628.0
+        ],
+        [
+          484.0,
+          630.0
+        ],
+        [
+          484.0,
+          702.0
+        ],
+        [
+          612.0,
+          702.0
+        ],
+        [
+          612.0,
+          582.0
+        ]
+      ],
+      "polygon_flat": [
+        524.0,
+        582.0,
+        523.0,
+        605.0,
+        586.0,
+        610.0,
+        586.0,
+        650.0,
+        578.0,
+        664.0,
+        505.0,
+        659.0,
+        502.0,
+        628.0,
+        484.0,
+        630.0,
+        484.0,
+        702.0,
+        612.0,
+        702.0,
+        612.0,
+        582.0
+      ],
+      "adjacent_room_ids": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "door_ids": [],
+      "window_ids": [],
+      "confidence": 1.0
+    }
+  ],
+  "topology": {
+    "nodes": [
+      {
+        "room_id": 0,
+        "centroid": [
+          701.0,
+          393.2
+        ],
+        "label": "Open Plan"
+      },
+      {
+        "room_id": 1,
+        "centroid": [
+          490.4,
+          280.0
+        ],
+        "label": "Living Space"
+      },
+      {
+        "room_id": 2,
+        "centroid": [
+          189.0,
+          642.0
+        ],
+        "label": "Room"
+      },
+      {
+        "room_id": 3,
+        "centroid": [
+          194.7,
+          151.2
+        ],
+        "label": "Room"
+      },
+      {
+        "room_id": 4,
+        "centroid": [
+          461.6,
+          155.4
+        ],
+        "label": "Small Room"
+      },
+      {
+        "room_id": 5,
+        "centroid": [
+          177.8,
+          498.5
+        ],
+        "label": "Small Room"
+      },
+      {
+        "room_id": 6,
+        "centroid": [
+          556.7,
+          652.2
+        ],
+        "label": "Small Room"
+      }
+    ],
+    "edges": []
+  },
+  "model_3d": {
+    "available": true,
+    "vertex_count": 5614,
+    "triangle_count": 2542,
+    "floor_height_m": 2.8,
+    "px_per_m": 100.0,
+    "center": [
+      1.1561833620071411,
+      1.3650000095367432,
+      -0.014337658882141113
+    ],
+    "bounds_min": [
+      -3.738816499710083,
+      -0.07000000029802322,
+      -3.7693376541137695
+    ],
+    "bounds_max": [
+      6.051183223724365,
+      2.799999952316284,
+      3.7406623363494873
+    ],
+    "export_hint": "Use Export OBJ / Export GLB for full 3D geometry"
+  }
+}

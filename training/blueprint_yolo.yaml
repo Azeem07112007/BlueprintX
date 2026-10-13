@@ -1,0 +1,24 @@
+# blueprint_yolo.yaml
+# YOLO11 Dataset Configuration for Blueprint-X Milestone 2
+
+path: ../datasets/blueprint_segmentation  # dataset root dir
+train: images/train  # train images (relative to 'path')
+val: images/val      # val images (relative to 'path')
+
+# Classes
+names:
+  0: door
+  1: window
+  2: stairs
+  3: column
+  4: text_block
+  5: dimension
+  6: chair
+  7: table
+  8: sofa
+  9: bed
+  10: toilet
+  11: sink
+  12: bathtub
+  13: kitchen_counter
+  14: electrical

@@ -1,0 +1,337 @@
+{
+  "schema_version": "2.0.0",
+  "metadata": {
+    "file_name": "sample_floorplan.png",
+    "file_path": "sample_floorplan.png",
+    "width_px": 900,
+    "height_px": 700,
+    "channels": 3,
+    "exported_at_utc": "2026-07-04T15:39:49Z",
+    "tool": "Blueprint-X Prototype",
+    "milestone": 1.5
+  },
+  "floor_plan": {
+    "width_px": 900,
+    "height_px": 700
+  },
+  "walls": [
+    {
+      "start": [
+        55,
+        635
+      ],
+      "end": [
+        845,
+        635
+      ],
+      "wall_type": "outer",
+      "length_px": 790.0,
+      "confidence": 1.0
+    },
+    {
+      "start": [
+        55,
+        65
+      ],
+      "end": [
+        845,
+        65
+      ],
+      "wall_type": "outer",
+      "length_px": 790.0,
+      "confidence": 1.0
+    },
+    {
+      "start": [
+        844,
+        643
+      ],
+      "end": [
+        844,
+        57
+      ],
+      "wall_type": "outer",
+      "length_px": 586.0,
+      "confidence": 1.0
+    },
+    {
+      "start": [
+        56,
+        643
+      ],
+      "end": [
+        56,
+        58
+      ],
+      "wall_type": "outer",
+      "length_px": 585.0,
+      "confidence": 1.0
+    },
+    {
+      "start": [
+        212,
+        689
+      ],
+      "end": [
+        286,
+        689
+      ],
+      "wall_type": "outer",
+      "length_px": 74.0,
+      "confidence": 1.0
+    },
+    {
+      "start": [
+        295,
+        668
+      ],
+      "end": [
+        393,
+        668
+      ],
+      "wall_type": "outer",
+      "length_px": 98.0,
+      "confidence": 1.0
+    }
+  ],
+  "rooms": [
+    {
+      "room_id": 1,
+      "centroid": [
+        450,
+        350
+      ],
+      "area_px": 428244.0,
+      "bounding_box": {
+        "x": 69,
+        "y": 69,
+        "width": 763,
+        "height": 563
+      },
+      "polygon_points": [
+        [
+          69,
+          69
+        ],
+        [
+          69,
+          631
+        ],
+        [
+          831,
+          631
+        ],
+        [
+          831,
+          69
+        ]
+      ]
+    },
+    {
+      "room_id": 2,
+      "centroid": [
+        450,
+        350
+      ],
+      "area_px": 477184.0,
+      "bounding_box": {
+        "x": 51,
+        "y": 51,
+        "width": 799,
+        "height": 599
+      },
+      "polygon_points": [
+        [
+          51,
+          54
+        ],
+        [
+          846,
+          51
+        ],
+        [
+          849,
+          646
+        ],
+        [
+          54,
+          649
+        ]
+      ]
+    }
+  ],
+  "doors": [
+    {
+      "center": [
+        450,
+        350
+      ],
+      "radius_px": 15,
+      "angle_deg": 0.0,
+      "confidence": 1.0
+    }
+  ],
+  "windows": [],
+  "stairs": [],
+  "furniture": [
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 65,
+        "y": 487,
+        "width": 90,
+        "height": 7
+      },
+      "centroid": [
+        109,
+        490
+      ],
+      "area_px": 534.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 697,
+        "y": 471,
+        "width": 7,
+        "height": 165
+      },
+      "centroid": [
+        700,
+        553
+      ],
+      "area_px": 984.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Bed",
+      "bounding_box": {
+        "x": 216,
+        "y": 471,
+        "width": 348,
+        "height": 165
+      },
+      "centroid": [
+        406,
+        521
+      ],
+      "area_px": 3921.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 681,
+        "y": 337,
+        "width": 155,
+        "height": 83
+      },
+      "centroid": [
+        738,
+        353
+      ],
+      "area_px": 1381.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Sofa",
+      "bounding_box": {
+        "x": 416,
+        "y": 337,
+        "width": 204,
+        "height": 93
+      },
+      "centroid": [
+        530,
+        353
+      ],
+      "area_px": 1735.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 65,
+        "y": 337,
+        "width": 90,
+        "height": 7
+      },
+      "centroid": [
+        109,
+        340
+      ],
+      "area_px": 534.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 311,
+        "y": 90,
+        "width": 58,
+        "height": 12
+      },
+      "centroid": [
+        337,
+        96
+      ],
+      "area_px": 401.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Chair",
+      "bounding_box": {
+        "x": 86,
+        "y": 90,
+        "width": 58,
+        "height": 12
+      },
+      "centroid": [
+        112,
+        96
+      ],
+      "area_px": 401.0,
+      "confidence": 1.0
+    },
+    {
+      "label": "Dining Table",
+      "bounding_box": {
+        "x": 65,
+        "y": 65,
+        "width": 419,
+        "height": 355
+      },
+      "centroid": [
+        311,
+        236
+      ],
+      "area_px": 5456.5,
+      "confidence": 1.0
+    },
+    {
+      "label": "Other",
+      "bounding_box": {
+        "x": 0,
+        "y": 0,
+        "width": 900,
+        "height": 700
+      },
+      "centroid": [
+        459,
+        314
+      ],
+      "area_px": 2903.5,
+      "confidence": 1.0
+    }
+  ],
+  "statistics": {
+    "total_rooms": 2,
+    "total_doors": 1,
+    "total_windows": 0,
+    "total_staircases": 0,
+    "total_furniture": 10,
+    "estimated_floor_area_px2": 905428.0,
+    "reconstruction_confidence": 0.881
+  }
+}

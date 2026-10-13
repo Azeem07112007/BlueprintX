@@ -1,0 +1,57 @@
+# Python & Virtual Environments
+.venv/
+venv/
+venv*/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Temp files
+*.log
+test_orientations.log
+unity_test.log
+build_standalone.log
+
+# Unity generated & build directories
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+MemoryCaptures/
+Recordings/
+ExportedObj/
+Assets/AssetStoreTools*
+
+# Visual Studio / IDE temporary files
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Large debug runtime outputs
+debug_*.png
+test_viewer3d.png
