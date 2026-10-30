@@ -165,6 +165,12 @@ class BlueprintPipeline:
         # Procedurally furnish/decorate house rooms based on semantic labels
         building.furniture = ProceduralHouseDecorator.decorate_building(building)
 
+        # Build comprehensive room topology graph
+        topo_result = self.topology_engine.build_room_topology(building.rooms, building.doors, building.walls)
+        if topo_result.nodes:
+            building.topology_nodes = topo_result.nodes
+            building.topology_edges = topo_result.edges
+
         # ── 9. 3D Model Generation ─────────────────────────────────────────
         _p(10, "3D model generation...")
         building.model_3d = self.model3d_builder.run(building)

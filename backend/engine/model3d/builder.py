@@ -150,14 +150,30 @@ class Model3DBuilder:
         show_ceiling   : bool  = False,
         win_sill_frac  : float = 0.25,
         win_head_frac  : float = 0.75,
+        include_furniture : bool = True,
+        wall_color     : Optional[Tuple[float, float, float]] = None,
+        outer_wall_color : Optional[Tuple[float, float, float]] = None,
+        inner_wall_color : Optional[Tuple[float, float, float]] = None,
+        wall_width_m   : Optional[float] = None,
     ):
         self.floor_height_m = floor_height_m
         self._px_per_m      = px_per_m
-        self.wall_min_outer = wall_min_outer
-        self.wall_min_inner = wall_min_inner
         self.show_ceiling   = show_ceiling
         self.win_sill_frac  = win_sill_frac
         self.win_head_frac  = win_head_frac
+        self.include_furniture = include_furniture
+        self.wall_color = np.array(wall_color, dtype=np.float32) if wall_color is not None else None
+        self.outer_wall_color = np.array(outer_wall_color, dtype=np.float32) if outer_wall_color is not None else None
+        self.inner_wall_color = np.array(inner_wall_color, dtype=np.float32) if inner_wall_color is not None else None
+        self.wall_width_m = wall_width_m
+
+        if wall_width_m is not None and wall_width_m > 0:
+            self.wall_min_outer = float(wall_width_m)
+            self.wall_min_inner = max(0.08, float(wall_width_m) * 0.67)
+        else:
+            self.wall_min_outer = wall_min_outer
+            self.wall_min_inner = wall_min_inner
+
         self._cleaner       = WallCleaner()
 
     # ── Public API ────────────────────────────────────────────────────────────
@@ -204,9 +220,10 @@ class Model3DBuilder:
             verts.extend(v); norms.extend(n); cols.extend(c); idxs.extend(i)
 
         # ── 4. Furniture 3D Mesh Generation ──────────────────────────────────
-        for f in building.furniture:
-            fv, fn, fc, fi, base = Furniture3DBuilder.build_furniture(f, to_world, px_per_m, base)
-            verts.extend(fv); norms.extend(fn); cols.extend(fc); idxs.extend(fi)
+        if self.include_furniture:
+            for f in building.furniture:
+                fv, fn, fc, fi, base = Furniture3DBuilder.build_furniture(f, to_world, px_per_m, base)
+                verts.extend(fv); norms.extend(fn); cols.extend(fc); idxs.extend(fi)
 
         # ── 5. Staircase 3D Mesh Generation ─────────────────────────────────
         for s in building.stairs:
@@ -261,12 +278,33 @@ class Model3DBuilder:
         h      = self.floor_height_m
 
         raw_t = wall.thickness_px / px_per_m if wall.thickness_px > 0 else 0.0
-        if wall.wall_type == "outer":
-            half_t = max(self.wall_min_outer, raw_t) / 2
-            col, top_col = _OUTER_WALL, _TOP_OUTER
+        if self.wall_width_m is not None and self.wall_width_m > 0:
+            half_t = (self.wall_min_outer if wall.wall_type == "outer" else self.wall_min_inner) / 2.0
         else:
-            half_t = max(self.wall_min_inner, raw_t) / 2
-            col, top_col = _INNER_WALL, _TOP_INNER
+            if wall.wall_type == "outer":
+                half_t = max(self.wall_min_outer, raw_t) / 2
+            else:
+                half_t = max(self.wall_min_inner, raw_t) / 2
+
+        # Wall colours (custom or architectural default)
+        if wall.wall_type == "outer":
+            if self.outer_wall_color is not None:
+                col = self.outer_wall_color
+                top_col = np.clip(col * 1.15 + 0.05, 0.0, 1.0)
+            elif self.wall_color is not None:
+                col = self.wall_color
+                top_col = np.clip(col * 1.15 + 0.05, 0.0, 1.0)
+            else:
+                col, top_col = _OUTER_WALL, _TOP_OUTER
+        else:
+            if self.inner_wall_color is not None:
+                col = self.inner_wall_color
+                top_col = np.clip(col * 1.15 + 0.05, 0.0, 1.0)
+            elif self.wall_color is not None:
+                col = np.clip(self.wall_color * 0.92, 0.0, 1.0)
+                top_col = np.clip(self.wall_color * 1.08 + 0.04, 0.0, 1.0)
+            else:
+                col, top_col = _INNER_WALL, _TOP_INNER
         half_t_px = half_t * px_per_m
 
         # Perpendicular in pixel space (-dy, dx is "left" of wall direction)
@@ -279,9 +317,9 @@ class Model3DBuilder:
         wd = _norm(np.array([dx, 0., -dy], np.float32))
 
         # Split wall at door gaps (horizontal, full-height openings)
-        door_excl  = self._collect_excl(x1, y1, L, dx, dy, door_segs,  perp_tol=40.0)
+        door_excl  = self._collect_excl(x1, y1, L, dx, dy, door_segs,  perp_tol=max(40.0, half_t_px + 15.0))
         # Split wall at window openings (mid-height)
-        win_excl   = self._collect_excl(x1, y1, L, dx, dy, win_segs,   perp_tol=35.0)
+        win_excl   = self._collect_excl(x1, y1, L, dx, dy, win_segs,   perp_tol=max(35.0, half_t_px + 10.0))
 
         door_segs_h = self._merge_excl(door_excl)   # full-height cuts
         win_segs_h  = self._merge_excl(win_excl)    # mid-height cuts (sill→head)
@@ -293,13 +331,35 @@ class Model3DBuilder:
         px_ = perp_x * half_t_px
         py_ = perp_y * half_t_px
 
+        def c4(px, py, el): return to_world(px, py, el)
+
+        # Solid doorway lintel headers above all doors (from door_h to ceiling h)
+        door_h = min(2.15, h * 0.76)
+        for da, db in door_segs_h:
+            if db - da < 1e-4:
+                continue
+            dax, day = x1 + da * L * dx, y1 + da * L * dy
+            dbx, dby = x1 + db * L * dx, y1 + db * L * dy
+
+            ai_d  = c4(dax + px_, day + py_, door_h);  ai_dt = c4(dax + px_, day + py_, h)
+            ao_d  = c4(dax - px_, day - py_, door_h);  ao_dt = c4(dax - px_, day - py_, h)
+            bi_d  = c4(dbx + px_, dby + py_, door_h);  bi_dt = c4(dbx + px_, dby + py_, h)
+            bo_d  = c4(dbx - px_, dby - py_, door_h);  bo_dt = c4(dbx - px_, dby - py_, h)
+
+            for q in [
+                (ai_d,  bi_d,  bi_dt, ai_dt,  wp,    col),      # Front face
+                (bo_d,  ao_d,  ao_dt, bo_dt, -wp,    col),      # Back face
+                (ai_dt, bi_dt, bo_dt, ao_dt,  _UP,   top_col),  # Top cap (ceiling)
+                (ao_d,  bo_d,  bi_d,  ai_d,  _DOWN,  col),      # Underside soffit
+            ]:
+                v, n, c_, i, base = _quad(*q[:4], q[4], q[5], base)
+                results.append((v, n, c_, i))
+
         for ta, tb in col_spans:
             if tb - ta < 1e-4:
                 continue
             ax, ay = x1 + ta*L*dx, y1 + ta*L*dy
             bx, by = x1 + tb*L*dx, y1 + tb*L*dy
-
-            def c4(px, py, el): return to_world(px, py, el)
 
             ai  = c4(ax+px_, ay+py_, 0);   ai_t = c4(ax+px_, ay+py_, h)
             ao  = c4(ax-px_, ay-py_, 0);   ao_t = c4(ax-px_, ay-py_, h)

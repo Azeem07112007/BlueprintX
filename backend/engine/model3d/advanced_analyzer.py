@@ -128,10 +128,10 @@ def _check_room_adjacency(poly1: List[Tuple[float, float]], poly2: List[Tuple[fl
             if dot < 0.85:
                 continue
 
-            # Distance of b1 and b2 to segment A
-            d1 = _dist_point_to_segment(b1[0], b1[1], a1[0], a1[1], a2[0], a2[1])
-            d2 = _dist_point_to_segment(b2[0], b2[1], a1[0], a1[1], a2[0], a2[1])
-            if max(d1, d2) > 35.0:
+            # Perpendicular distance to line A
+            perp1 = abs((b1[0] - a1[0]) * uy - (b1[1] - a1[1]) * ux)
+            perp2 = abs((b2[0] - a1[0]) * uy - (b2[1] - a1[1]) * ux)
+            if max(perp1, perp2) > 65.0:
                 continue
 
             # Projection onto line A
@@ -141,7 +141,7 @@ def _check_room_adjacency(poly1: List[Tuple[float, float]], poly2: List[Tuple[fl
             t_max = min(lenA, max(t_b1, t_b2))
 
             overlap = t_max - t_min
-            if overlap > 15.0:
+            if overlap >= 18.0:
                 mid_t = (t_min + t_max) / 2.0
                 cx = a1[0] + ux * mid_t
                 cy = a1[1] + uy * mid_t
@@ -272,8 +272,10 @@ class AdvancedArchitecturalAnalyzer:
             if len(connected_rooms) >= 2:
                 for i in range(len(connected_rooms)):
                     for j in range(i + 1, len(connected_rooms)):
-                        r1 = rooms[connected_rooms[i]].room_id
-                        r2 = rooms[connected_rooms[j]].room_id
+                        rm1 = rooms[connected_rooms[i]]
+                        rm2 = rooms[connected_rooms[j]]
+                        r1 = rm1.room_id
+                        r2 = rm2.room_id
                         if r1 != r2:
                             edge_key = tuple(sorted((r1, r2)))
                             if edge_key not in added_edges:
@@ -284,6 +286,18 @@ class AdvancedArchitecturalAnalyzer:
                                     edge_type="door",
                                     door_center=d.center,
                                 ))
+                            if r2 not in rm1.adjacent_room_ids:
+                                rm1.adjacent_room_ids.append(r2)
+                            if r1 not in rm2.adjacent_room_ids:
+                                rm2.adjacent_room_ids.append(r1)
+                            if d.id not in rm1.door_ids:
+                                rm1.door_ids.append(d.id)
+                            if d.id not in rm2.door_ids:
+                                rm2.door_ids.append(d.id)
+                            if r1 not in d.connected_rooms:
+                                d.connected_rooms.append(r1)
+                            if r2 not in d.connected_rooms:
+                                d.connected_rooms.append(r2)
 
         # 2. Shared wall boundary adjacency for all room pairs across floor plan
         for i in range(len(rooms)):
@@ -303,6 +317,10 @@ class AdvancedArchitecturalAnalyzer:
                         edge_type="door",
                         door_center=mid_pt,
                     ))
+                    if r2.room_id not in r1.adjacent_room_ids:
+                        r1.adjacent_room_ids.append(r2.room_id)
+                    if r1.room_id not in r2.adjacent_room_ids:
+                        r2.adjacent_room_ids.append(r1.room_id)
 
         building.topology_nodes = topo_nodes
         building.topology_edges = topo_edges

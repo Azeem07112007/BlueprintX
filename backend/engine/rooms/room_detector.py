@@ -36,6 +36,55 @@ from backend.engine.topology.topology_engine import TopologyResult
 logger = logging.getLogger(__name__)
 
 
+def _polygons_share_boundary(
+    poly1: List[Tuple[float, float]],
+    poly2: List[Tuple[float, float]],
+    max_dist: float = 65.0,
+    min_overlap: float = 18.0,
+) -> bool:
+    """Checks whether two room polygons share a parallel boundary wall segment."""
+    n1, n2 = len(poly1), len(poly2)
+    if n1 < 3 or n2 < 3:
+        return False
+
+    for i in range(n1):
+        a1 = poly1[i]
+        a2 = poly1[(i + 1) % n1]
+        ax, ay = a2[0] - a1[0], a2[1] - a1[1]
+        lenA = math.hypot(ax, ay)
+        if lenA < 1e-4:
+            continue
+        ux, uy = ax / lenA, ay / lenA
+
+        for j in range(n2):
+            b1 = poly2[j]
+            b2 = poly2[(j + 1) % n2]
+            bx, by = b2[0] - b1[0], b2[1] - b1[1]
+            lenB = math.hypot(bx, by)
+            if lenB < 1e-4:
+                continue
+
+            dot = abs(ux * (bx / lenB) + uy * (by / lenB))
+            if dot < 0.85:
+                continue
+
+            # Perpendicular distance to line A
+            perp1 = abs((b1[0] - a1[0]) * uy - (b1[1] - a1[1]) * ux)
+            perp2 = abs((b2[0] - a1[0]) * uy - (b2[1] - a1[1]) * ux)
+            if max(perp1, perp2) > max_dist:
+                continue
+
+            # 1D projection overlap onto line A
+            t_b1 = (b1[0] - a1[0]) * ux + (b1[1] - a1[1]) * uy
+            t_b2 = (b2[0] - a1[0]) * ux + (b2[1] - a1[1]) * uy
+            t_min = max(0.0, min(t_b1, t_b2))
+            t_max = min(lenA, max(t_b1, t_b2))
+            if t_max - t_min >= min_overlap:
+                return True
+
+    return False
+
+
 @dataclass
 class RoomDetectionResult:
     rooms: List[Room] = field(default_factory=list)
@@ -226,6 +275,17 @@ class RoomDetector:
             bw = int(stats[i, cv2.CC_STAT_WIDTH])
             bh = int(stats[i, cv2.CC_STAT_HEIGHT])
 
+            # Filter out outer canvas border / margin frame components
+            if (bw > w * 0.80 and bh > h * 0.80) and (
+                (area / max(1, bw * bh) < 0.35) or
+                (x <= 35 and y <= 35 and x + bw >= w - 35 and y + bh >= h - 35)
+            ):
+                logger.info(
+                    "[RoomDetector] Filtered out exterior canvas margin component %d (bbox=%d,%d,%d,%d, area=%.0f)",
+                    i, x, y, bw, bh, area
+                )
+                continue
+
             room = Room(
                 room_id=len(rooms),
                 polygon_pts=pts,
@@ -316,19 +376,30 @@ class RoomDetector:
             )
             wall.wall_type = "outer" if near_border else "internal"
 
-    # ── Adjacency from centroid proximity ─────────────────────────────────────
+    # ── Adjacency from shared boundary proximity ──────────────────────────────
 
     def _compute_adjacency(self, rooms: List[Room]) -> None:
-        """Mark rooms as adjacent if their bounding boxes overlap."""
+        """Mark rooms as adjacent if their wall boundaries share an interface."""
         for i, r in enumerate(rooms):
-            for j, s in enumerate(rooms):
-                if i >= j:
-                    continue
-                ax, ay, aw, ah = r.bounding_box
-                bx, by, bw, bh = s.bounding_box
-                overlap_x = max(0, min(ax + aw, bx + bw) - max(ax, bx))
-                overlap_y = max(0, min(ay + ah, by + bh) - max(ay, by))
-                if overlap_x > 5 or overlap_y > 5:
+            for j in range(i + 1, len(rooms)):
+                s = rooms[j]
+                is_adj = False
+                if len(r.polygon_pts) >= 3 and len(s.polygon_pts) >= 3:
+                    is_adj = _polygons_share_boundary(r.polygon_pts, s.polygon_pts)
+                if not is_adj:
+                    # Fallback to bounding box overlap
+                    ax, ay, aw, ah = r.bounding_box
+                    bx, by, bw, bh = s.bounding_box
+                    overlap_x = max(0, min(ax + aw, bx + bw) - max(ax, bx))
+                    overlap_y = max(0, min(ay + ah, by + bh) - max(ay, by))
+                    # Adjacent if bounding boxes touch along an edge (within 25px) and overlap in other dimension
+                    touch_x = (overlap_x >= 10 and min(abs(ay + ah - by), abs(by + bh - ay)) <= 25)
+                    touch_y = (overlap_y >= 10 and min(abs(ax + aw - bx), abs(bx + bw - ax)) <= 25)
+                    overlap_both = (overlap_x >= 5 and overlap_y >= 5)
+                    if touch_x or touch_y or overlap_both:
+                        is_adj = True
+
+                if is_adj:
                     if int(s.room_id) not in r.adjacent_room_ids:
                         r.adjacent_room_ids.append(int(s.room_id))
                     if int(r.room_id) not in s.adjacent_room_ids:

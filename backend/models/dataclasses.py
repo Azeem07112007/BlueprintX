@@ -77,6 +77,7 @@ class Door(BaseElement):
     mask: Optional[np.ndarray] = None
     has_arc: bool = False
     source: str = "gap"   # "gap" (geometric) | "yolo" (AI)
+    connected_rooms: List[int] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -87,6 +88,7 @@ class Door(BaseElement):
             "angle_deg": round(self.angle_deg, 1),
             "has_arc": self.has_arc,
             "source": self.source,
+            "connected_rooms": self.connected_rooms,
             "confidence": round(self.confidence, 3),
         }
 

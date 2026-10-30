@@ -15,7 +15,7 @@ from typing import Dict, List, Optional, Set, Tuple
 import numpy as np
 
 from backend.engine.geometry.geometry_engine import BuildingGraph
-from backend.models.dataclasses import TopologyEdge, TopologyNode
+from backend.models.dataclasses import TopologyEdge, TopologyNode, Room, Door, Wall
 
 try:
     import networkx as nx
@@ -111,6 +111,167 @@ class TopologyEngine:
         result.nodes = nodes
         result.edges = edges
         return result
+
+    def build_room_topology(
+        self,
+        rooms: List[Room],
+        doors: Optional[List[Door]] = None,
+        walls: Optional[List[Wall]] = None,
+    ) -> TopologyResult:
+        """
+        Builds a comprehensive, connected room adjacency & door connectivity topology graph
+        from room polygons and doors.
+        """
+        result = TopologyResult()
+        valid_rooms = [r for r in rooms if r.polygon_pts and len(r.polygon_pts) >= 3]
+        if not valid_rooms:
+            return result
+
+        nodes = [
+            TopologyNode(room_id=r.room_id, centroid=r.centroid, label=r.label)
+            for r in valid_rooms
+        ]
+
+        edges: List[TopologyEdge] = []
+        added_pairs = set()
+
+        # 1. Door connectivity
+        doors = doors or []
+        for d in doors:
+            dcx, dcy = d.center
+            connected_rooms = []
+            for idx, r in enumerate(valid_rooms):
+                if self._dist_point_to_polygon(dcx, dcy, r.polygon_pts) < 50.0:
+                    connected_rooms.append(idx)
+
+            if len(connected_rooms) >= 2:
+                for i in range(len(connected_rooms)):
+                    for j in range(i + 1, len(connected_rooms)):
+                        rm1 = valid_rooms[connected_rooms[i]]
+                        rm2 = valid_rooms[connected_rooms[j]]
+                        r1, r2 = rm1.room_id, rm2.room_id
+                        if r1 != r2:
+                            pair = tuple(sorted((r1, r2)))
+                            if pair not in added_pairs:
+                                added_pairs.add(pair)
+                                edges.append(TopologyEdge(
+                                    source_id=r1,
+                                    target_id=r2,
+                                    edge_type="door",
+                                    door_center=d.center,
+                                ))
+                            if r2 not in rm1.adjacent_room_ids:
+                                rm1.adjacent_room_ids.append(r2)
+                            if r1 not in rm2.adjacent_room_ids:
+                                rm2.adjacent_room_ids.append(r1)
+                            if d.id not in rm1.door_ids:
+                                rm1.door_ids.append(d.id)
+                            if d.id not in rm2.door_ids:
+                                rm2.door_ids.append(d.id)
+                            if r1 not in d.connected_rooms:
+                                d.connected_rooms.append(r1)
+                            if r2 not in d.connected_rooms:
+                                d.connected_rooms.append(r2)
+
+        # 2. Shared wall boundary adjacency
+        for i in range(len(valid_rooms)):
+            r1 = valid_rooms[i]
+            for j in range(i + 1, len(valid_rooms)):
+                r2 = valid_rooms[j]
+                pair = tuple(sorted((r1.room_id, r2.room_id)))
+                if pair in added_pairs:
+                    continue
+
+                is_adj, mid_pt = self._check_room_adjacency(r1.polygon_pts, r2.polygon_pts)
+                if is_adj:
+                    added_pairs.add(pair)
+                    edges.append(TopologyEdge(
+                        source_id=r1.room_id,
+                        target_id=r2.room_id,
+                        edge_type="door",
+                        door_center=mid_pt,
+                    ))
+                    if r2.room_id not in r1.adjacent_room_ids:
+                        r1.adjacent_room_ids.append(r2.room_id)
+                    if r1.room_id not in r2.adjacent_room_ids:
+                        r2.adjacent_room_ids.append(r1.room_id)
+
+        result.nodes = nodes
+        result.edges = edges
+        return result
+
+    @staticmethod
+    def _dist_point_to_polygon(px: float, py: float, poly: List[Tuple[float, float]]) -> float:
+        n = len(poly)
+        if n < 3:
+            return 1e9
+        min_d = 1e9
+        for i in range(n):
+            ax, ay = poly[i]
+            bx, by = poly[(i + 1) % n]
+            dx, dy = bx - ax, by - ay
+            L2 = dx * dx + dy * dy
+            if L2 < 1e-6:
+                d = math.hypot(px - ax, py - ay)
+            else:
+                t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / L2))
+                d = math.hypot(px - (ax + t * dx), py - (ay + t * dy))
+            if d < min_d:
+                min_d = d
+        return min_d
+
+    @staticmethod
+    def _check_room_adjacency(
+        poly1: List[Tuple[float, float]],
+        poly2: List[Tuple[float, float]],
+        max_dist: float = 65.0,
+        min_overlap: float = 18.0,
+    ) -> Tuple[bool, Optional[Tuple[float, float]]]:
+        n1, n2 = len(poly1), len(poly2)
+        if n1 < 3 or n2 < 3:
+            return False, None
+
+        for i in range(n1):
+            a1 = poly1[i]
+            a2 = poly1[(i + 1) % n1]
+            ax, ay = a2[0] - a1[0], a2[1] - a1[1]
+            lenA = math.hypot(ax, ay)
+            if lenA < 1e-4:
+                continue
+            ux, uy = ax / lenA, ay / lenA
+
+            for j in range(n2):
+                b1 = poly2[j]
+                b2 = poly2[(j + 1) % n2]
+                bx, by = b2[0] - b1[0], b2[1] - b1[1]
+                lenB = math.hypot(bx, by)
+                if lenB < 1e-4:
+                    continue
+
+                dot = abs(ux * (bx / lenB) + uy * (by / lenB))
+                if dot < 0.85:
+                    continue
+
+                # Perpendicular distance to line A
+                perp1 = abs((b1[0] - a1[0]) * uy - (b1[1] - a1[1]) * ux)
+                perp2 = abs((b2[0] - a1[0]) * uy - (b2[1] - a1[1]) * ux)
+                if max(perp1, perp2) > max_dist:
+                    continue
+
+                # 1D projection overlap
+                t_b1 = (b1[0] - a1[0]) * ux + (b1[1] - a1[1]) * uy
+                t_b2 = (b2[0] - a1[0]) * ux + (b2[1] - a1[1]) * uy
+                t_min = max(0.0, min(t_b1, t_b2))
+                t_max = min(lenA, max(t_b1, t_b2))
+
+                overlap = t_max - t_min
+                if overlap >= min_overlap:
+                    mid_t = (t_min + t_max) / 2.0
+                    cx = a1[0] + ux * mid_t
+                    cy = a1[1] + uy * mid_t
+                    return True, (cx, cy)
+
+        return False, None
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 

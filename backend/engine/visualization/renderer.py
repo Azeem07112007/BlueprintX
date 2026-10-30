@@ -101,16 +101,47 @@ def _area_label(room: Room) -> str:
 class Renderer:
     """Provides rendering functions for the UI views based on the Building model."""
 
-    def __init__(self, original_bgr: np.ndarray, building: Building):
+    def __init__(
+        self,
+        original_bgr: np.ndarray,
+        building: Building,
+        wall_color_bgr: Optional[Tuple[int, int, int]] = None,
+        wall_thickness_scale: float = 1.0,
+        include_furniture: bool = True,
+    ):
         self.bgr = original_bgr.copy()
         self.building = building
+        self.wall_color_bgr = wall_color_bgr
+        self.wall_thickness_scale = max(0.2, float(wall_thickness_scale))
+        self.include_furniture = include_furniture
+
+    def _draw_walls(self, canvas: np.ndarray, outer_thickness: int = 4, inner_thickness: int = 2) -> None:
+        outer_t = max(1, int(round(outer_thickness * self.wall_thickness_scale)))
+        inner_t = max(1, int(round(inner_thickness * self.wall_thickness_scale)))
+        for wall in self.building.walls:
+            if self.wall_color_bgr is not None:
+                color = self.wall_color_bgr if wall.wall_type == "outer" else tuple(max(0, int(c * 0.82)) for c in self.wall_color_bgr)
+            else:
+                color = _OUTER_WALL if wall.wall_type == "outer" else _INNER_WALL
+            thick = outer_t if wall.wall_type == "outer" else inner_t
+            p1 = (int(wall.start[0]), int(wall.start[1]))
+            p2 = (int(wall.end[0]), int(wall.end[1]))
+            cv2.line(canvas, p1, p2, color, thick, cv2.LINE_AA)
+
+    def _draw_furniture_markers(self, canvas: np.ndarray) -> None:
+        if not self.include_furniture:
+            return
+        for f in self.building.furniture:
+            if f.bbox:
+                x, y, w, h = f.bbox
+                cv2.rectangle(canvas, (x, y), (x + w, y + h), _FURNITURE_COLOR, 1, cv2.LINE_AA)
 
     # ── Wall view ─────────────────────────────────────────────────────────────
 
     def render_walls(self) -> np.ndarray:
         """Dimmed blueprint with detected wall vectors and door gap markers."""
         canvas = cv2.addWeighted(self.bgr, 0.38, np.zeros_like(self.bgr), 0.62, 0)
-        _draw_walls(canvas, self.building, outer_thickness=4, inner_thickness=2)
+        self._draw_walls(canvas, outer_thickness=4, inner_thickness=2)
 
         # Endpoint dots
         for wall in self.building.walls:
@@ -136,7 +167,7 @@ class Renderer:
                 cv2.fillPoly(canvas, [room.polygon_np], room.color_bgr)
 
         # Draw wall lines on top so room boundaries are sharp
-        _draw_walls(canvas, self.building, outer_thickness=3, inner_thickness=2)
+        self._draw_walls(canvas, outer_thickness=3, inner_thickness=2)
 
         # Room labels (+ area below)
         for room in self.building.rooms:
@@ -162,7 +193,7 @@ class Renderer:
 
         cv2.addWeighted(overlay, alpha * 0.5, out, 1.0 - alpha * 0.5, 0, out)
 
-        _draw_walls(out, self.building, outer_thickness=3, inner_thickness=2)
+        self._draw_walls(out, outer_thickness=3, inner_thickness=2)
         _draw_door_markers(out, self.building)
 
         for room in self.building.rooms:
@@ -245,12 +276,12 @@ class Renderer:
             cv2.line(canvas, pt1, pt2, (80, 80, 200), 1, cv2.LINE_AA)
 
         # Wall lines
-        _draw_walls(canvas, self.building, outer_thickness=3, inner_thickness=2)
+        self._draw_walls(canvas, outer_thickness=3, inner_thickness=2)
 
         # Door / window / furniture markers
         _draw_door_markers(canvas, self.building)
         _draw_window_markers(canvas, self.building)
-        _draw_furniture_markers(canvas, self.building)
+        self._draw_furniture_markers(canvas)
 
         # Room labels with badge backing
         font_scale = max(0.42, min(0.65, w / 1400.0))

@@ -10,12 +10,12 @@ Main application window.
 from __future__ import annotations
 
 from PySide6.QtCore import Qt, QThread, Signal
-from PySide6.QtGui import QClipboard
+from PySide6.QtGui import QClipboard, QColor
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QScrollArea, QFrame, QLabel, QProgressBar,
     QSlider, QTabWidget, QFileDialog, QSplitter, QStackedWidget,
-    QCheckBox, QApplication,
+    QCheckBox, QApplication, QPushButton, QColorDialog,
 )
 
 from pipeline import BlueprintPipeline, PipelineResult
@@ -73,6 +73,12 @@ class BlueprintXWindow(QMainWindow):
         self._worker: PipelineWorker | None = None
         self._viewer3d = None   # lazily created to avoid GL init before widget shown
         self._selected_room_id: int | None = None
+
+        # 3D Customization state
+        self._include_furniture: bool = True
+        self._custom_wall_color_rgb: tuple[float, float, float] | None = None
+        self._custom_wall_color_hex: str | None = None
+        self._preset_buttons: list[QPushButton] = []
 
         self.setWindowTitle("Blueprint-X  —  M4")
         self.setMinimumSize(1200, 720)
@@ -389,6 +395,114 @@ class BlueprintXWindow(QMainWindow):
         self.slider_floor_h.setEnabled(False)
         self.slider_floor_h.valueChanged.connect(self._on_floor_height_changed)
         lay.addWidget(self.slider_floor_h)
+
+        # Furniture placement toggle button
+        self.btn_toggle_furniture = QPushButton("🛋️  Furniture: Placed")
+        self.btn_toggle_furniture.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btn_toggle_furniture.setToolTip("Toggle placement of 3D furniture models inside rooms")
+        self.btn_toggle_furniture.setEnabled(False)
+        self.btn_toggle_furniture.clicked.connect(self._on_toggle_furniture)
+        self._update_furniture_btn_style()
+        lay.addWidget(self.btn_toggle_furniture)
+
+        lay.addWidget(Divider())
+
+        # ── Wall Customization ────────────────────────────────────────────
+        lay.addWidget(SectionLabel("WALL CUSTOMIZATION"))
+
+        lbl_w = QLabel("Wall Width: 0.30 m (30 cm)")
+        lbl_w.setStyleSheet(
+            f"color: {C_TEXT_DIM}; font-size: 11px; background: transparent; border: none;"
+        )
+        lay.addWidget(lbl_w)
+        self._lbl_wall_w = lbl_w
+
+        self.slider_wall_w = QSlider(Qt.Orientation.Horizontal)
+        self.slider_wall_w.setRange(10, 80)
+        self.slider_wall_w.setValue(30)
+        self.slider_wall_w.setEnabled(False)
+        self.slider_wall_w.setToolTip("Adjust thickness/width of walls in metres (10 cm to 80 cm)")
+        self.slider_wall_w.valueChanged.connect(self._on_wall_width_changed)
+        lay.addWidget(self.slider_wall_w)
+
+        lbl_col = QLabel("Wall Paint Color:")
+        lbl_col.setStyleSheet(
+            f"color: {C_TEXT_DIM}; font-size: 11px; background: transparent; border: none;"
+        )
+        lay.addWidget(lbl_col)
+
+        # Swatch + Name + Custom Button
+        col_row = QHBoxLayout()
+        col_row.setSpacing(8)
+
+        self.color_swatch = QLabel()
+        self.color_swatch.setFixedSize(22, 22)
+        self.color_swatch.setStyleSheet(
+            f"background: #DFC752; border: 1px solid {C_BORDER}; border-radius: 4px;"
+        )
+        col_row.addWidget(self.color_swatch)
+
+        self.lbl_wall_color = QLabel("Default Gold")
+        self.lbl_wall_color.setStyleSheet(
+            f"color: {C_TEXT}; font-size: 11px; font-weight: 600; background: transparent; border: none;"
+        )
+        col_row.addWidget(self.lbl_wall_color)
+        col_row.addStretch()
+
+        self.btn_pick_color = SidebarButton("Pick Color...", compact=True, icon_char="🎨")
+        self.btn_pick_color.setEnabled(False)
+        self.btn_pick_color.setToolTip("Open color picker dialog to choose a custom paint color")
+        self.btn_pick_color.clicked.connect(self._on_pick_wall_color)
+        col_row.addWidget(self.btn_pick_color)
+        lay.addLayout(col_row)
+
+        # Presets row
+        preset_row = QHBoxLayout()
+        preset_row.setSpacing(5)
+
+        self._preset_buttons.clear()
+        presets = [
+            ("Default", "#DFC752", (0.88, 0.78, 0.32)),
+            ("White",   "#F5F5F0", (0.96, 0.96, 0.94)),
+            ("Greige",  "#D5CDC2", (0.84, 0.80, 0.76)),
+            ("Slate",   "#546274", (0.33, 0.38, 0.45)),
+            ("Sage",    "#7E937A", (0.49, 0.58, 0.48)),
+            ("Terra",   "#C4664F", (0.77, 0.40, 0.31)),
+            ("Navy",    "#23324A", (0.14, 0.20, 0.29)),
+        ]
+
+        for name, hex_val, (pr, pg, pb) in presets:
+            chip = QPushButton()
+            chip.setFixedSize(22, 22)
+            chip.setToolTip(f"{name} ({hex_val})")
+            chip.setCursor(Qt.CursorShape.PointingHandCursor)
+            chip.setStyleSheet(f"""
+                QPushButton {{
+                    background: {hex_val};
+                    border: 1px solid {C_BORDER};
+                    border-radius: 4px;
+                }}
+                QPushButton:hover {{
+                    border: 2px solid {C_ACCENT2};
+                }}
+                QPushButton:disabled {{
+                    opacity: 0.35;
+                    border-color: {C_BORDER};
+                }}
+            """)
+            chip.clicked.connect(lambda _, r=pr, g=pg, b=pb, hx=hex_val, nm=name: self._set_wall_color(r, g, b, hx, nm))
+            chip.setEnabled(False)
+            self._preset_buttons.append(chip)
+            preset_row.addWidget(chip)
+
+        self.btn_reset_color = SidebarButton("↺", compact=True)
+        self.btn_reset_color.setToolTip("Reset to Default Architectural Colors")
+        self.btn_reset_color.setFixedWidth(28)
+        self.btn_reset_color.setEnabled(False)
+        self.btn_reset_color.clicked.connect(self._on_reset_wall_color)
+        preset_row.addWidget(self.btn_reset_color)
+        lay.addLayout(preset_row)
+
         lay.addWidget(Divider())
 
         # ── Statistics ────────────────────────────────────────────────────
@@ -486,6 +600,10 @@ class BlueprintXWindow(QMainWindow):
         self._uploaded_path = path
         self._result        = None
 
+        v3d = self._get_viewer3d()
+        if v3d is not None:
+            v3d._camera_initialized = False
+
         import cv2
         bgr = cv2.imread(path)
         if bgr is not None:
@@ -499,6 +617,12 @@ class BlueprintXWindow(QMainWindow):
         self.btn_export_glb.setEnabled(False)
         self.slider_alpha.setEnabled(False)
         self.slider_floor_h.setEnabled(False)
+        self.btn_toggle_furniture.setEnabled(False)
+        self.slider_wall_w.setEnabled(False)
+        self.btn_pick_color.setEnabled(False)
+        self.btn_reset_color.setEnabled(False)
+        for chip in self._preset_buttons:
+            chip.setEnabled(False)
         self.progress_bar.setValue(0)
         self.progress_msg.setText("")
         self.status_badge.set_state("idle", f"Loaded {path.split('/')[-1]}")
@@ -568,7 +692,7 @@ class BlueprintXWindow(QMainWindow):
             # Pre-load into 3D viewer
             v3d = self._get_viewer3d()
             if v3d and b.model_3d:
-                v3d.load_model(b.model_3d)
+                v3d.load_model(b.model_3d, reset_camera=True)
 
         # Populate room editor
         self.room_editor.load_rooms(b.rooms)
@@ -584,8 +708,18 @@ class BlueprintXWindow(QMainWindow):
         self.btn_launch_unity.setEnabled(bool(b.model_3d))
         self.slider_alpha.setEnabled(True)
         self.slider_floor_h.setEnabled(True)
+        self.btn_toggle_furniture.setEnabled(True)
+        self.slider_wall_w.setEnabled(True)
+        self.btn_pick_color.setEnabled(True)
+        self.btn_reset_color.setEnabled(True)
+        for chip in self._preset_buttons:
+            chip.setEnabled(True)
         self.progress_bar.setValue(100)
         self.status_badge.set_state("success", "Analysis Complete")
+
+        # Apply any active customized 3D / wall settings if not default
+        if not self._include_furniture or self._custom_wall_color_rgb is not None or self.slider_wall_w.value() != 30 or self.chk_ceiling.isChecked():
+            self._rebuild_3d()
 
         # Room stat — show count + total area if available
         total_area = sum(r.area_m2 for r in b.rooms if r.area_m2 > 0)
@@ -850,23 +984,125 @@ class BlueprintXWindow(QMainWindow):
         if idx in (self.TAB_ROOMS, self.TAB_SEMANTICS, self.TAB_OVERLAY):
             self._update_viewer()
 
-    def _on_rebuild_3d(self):
-        """Sync labels from the editor into Room objects, re-run semantics decorator,
-        then rebuild the 3D model with the corrected labels."""
-        if not self._result:
+    def _update_furniture_btn_style(self):
+        if self._include_furniture:
+            self.btn_toggle_furniture.setText("🛋️  Furniture: Placed")
+            self.btn_toggle_furniture.setStyleSheet(f"""
+                QPushButton {{
+                    background: qlineargradient(
+                        x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #4f46e5, stop:1 #0891b2);
+                    color: #ffffff;
+                    border: 1px solid {C_ACCENT};
+                    border-radius: 10px;
+                    padding: 8px 12px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    text-align: center;
+                }}
+                QPushButton:hover {{
+                    background: qlineargradient(
+                        x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #6366f1, stop:1 #06b6d4);
+                }}
+                QPushButton:disabled {{
+                    background: #141829;
+                    color: {C_TEXT_DIM};
+                    border: 1px solid {C_BORDER};
+                }}
+            """)
+        else:
+            self.btn_toggle_furniture.setText("🛋️  Furniture: OFF")
+            self.btn_toggle_furniture.setStyleSheet(f"""
+                QPushButton {{
+                    background: {C_SURFACE2};
+                    color: {C_TEXT_DIM};
+                    border: 1px dashed {C_BORDER};
+                    border-radius: 10px;
+                    padding: 8px 12px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-align: center;
+                }}
+                QPushButton:hover {{
+                    background: #1e2340;
+                    color: {C_TEXT};
+                    border-color: {C_ACCENT};
+                }}
+                QPushButton:disabled {{
+                    background: #141829;
+                    color: {C_TEXT_DIM};
+                    border: 1px solid {C_BORDER};
+                }}
+            """)
+
+    def _on_toggle_furniture(self):
+        self._include_furniture = not self._include_furniture
+        self._update_furniture_btn_style()
+        self._rebuild_3d()
+        state_txt = "placed" if self._include_furniture else "hidden"
+        self.status_badge.set_state("success", f"Furniture {state_txt.title()}")
+        self.progress_msg.setText(f"3D Model updated: furniture is now {state_txt}.")
+
+    def _on_wall_width_changed(self, val: int):
+        w_m = val / 100.0
+        self._lbl_wall_w.setText(f"Wall Width: {w_m:.2f} m ({val} cm)")
+        self._rebuild_3d()
+
+    def _on_pick_wall_color(self):
+        initial = QColor(self._custom_wall_color_hex or "#DFC752")
+        color = QColorDialog.getColor(initial, self, "Select Custom Wall Paint Color")
+        if color.isValid():
+            self._set_wall_color(color.redF(), color.greenF(), color.blueF(), color.name().upper())
+
+    def _set_wall_color(self, r: float, g: float, b: float, hex_code: str, name: str = ""):
+        self._custom_wall_color_rgb = (r, g, b)
+        self._custom_wall_color_hex = hex_code
+        display_name = name if name else hex_code.upper()
+        self.lbl_wall_color.setText(display_name)
+        self.color_swatch.setStyleSheet(
+            f"background: {hex_code}; border: 1px solid {C_BORDER}; border-radius: 4px;"
+        )
+        self._rebuild_3d()
+        self.status_badge.set_state("success", "Wall Color Applied")
+        self.progress_msg.setText(f"Wall paint color set to {display_name}.")
+
+    def _on_reset_wall_color(self):
+        self._custom_wall_color_rgb = None
+        self._custom_wall_color_hex = None
+        self.lbl_wall_color.setText("Default Gold")
+        self.color_swatch.setStyleSheet(
+            f"background: #DFC752; border: 1px solid {C_BORDER}; border-radius: 4px;"
+        )
+        self._rebuild_3d()
+        self.status_badge.set_state("success", "Wall Color Reset")
+        self.progress_msg.setText("Wall paint color restored to default architectural palette.")
+
+    def _rebuild_3d(self, redecorate: bool = False):
+        """Unified rebuild of 3D model and 2D views applying all current settings:
+        floor height, ceiling, furniture placement, custom wall color, and wall width."""
+        if not (self._result and self._result.building.walls):
             return
-        self.room_editor.sync_all_labels()
+
         bld = self._result.building
 
-        # Re-run procedural furnishing with corrected labels
-        from backend.engine.semantics.procedural_house_decorator import ProceduralHouseDecorator
-        bld.furniture = ProceduralHouseDecorator.decorate_building(bld)
+        if redecorate:
+            from backend.engine.semantics.procedural_house_decorator import ProceduralHouseDecorator
+            bld.furniture = ProceduralHouseDecorator.decorate_building(bld)
 
-        # Rebuild 3D
-        from backend.engine.model3d.builder import Model3DBuilder
         h = self.slider_floor_h.value() / 10.0
         ceil = self.chk_ceiling.isChecked()
-        bld.model_3d = Model3DBuilder(floor_height_m=h, show_ceiling=ceil).run(bld)
+        wall_w_m = self.slider_wall_w.value() / 100.0
+
+        from backend.engine.model3d.builder import Model3DBuilder
+        builder = Model3DBuilder(
+            floor_height_m=h,
+            show_ceiling=ceil,
+            include_furniture=self._include_furniture,
+            wall_color=self._custom_wall_color_rgb,
+            wall_width_m=wall_w_m,
+        )
+        bld.model_3d = builder.run(bld)
 
         if bld.model_3d:
             self.stat_verts.update_value(f"{bld.model_3d.vertex_count:,}")
@@ -875,13 +1111,40 @@ class BlueprintXWindow(QMainWindow):
             if v3d:
                 v3d.load_model(bld.model_3d)
 
-        self.status_badge.set_state("success", "3D Rebuilt")
-        self.progress_msg.setText("Labels applied. 3D model regenerated with corrected room types.")
-        # Refresh 2D view renderings (Renderer uses building.rooms)
-        self._result.renderer = type(self._result.renderer)(
-            self._result.original_bgr, bld
+        # Update wall thickness in data structures proportionally for exports
+        px_per_m = builder._resolve_scale(bld)
+        new_thickness_px = wall_w_m * px_per_m
+        for w in bld.walls:
+            if w.wall_type == "outer":
+                w.thickness_px = new_thickness_px
+            else:
+                w.thickness_px = max(4.0, new_thickness_px * 0.67)
+
+        # Also update 2D Renderer
+        wall_color_bgr = None
+        if self._custom_wall_color_rgb is not None:
+            r, g, b = self._custom_wall_color_rgb
+            wall_color_bgr = (int(b * 255), int(g * 255), int(r * 255))
+
+        wall_thickness_scale = wall_w_m / 0.30
+        from backend.engine.visualization.renderer import Renderer
+        self._result.renderer = Renderer(
+            self._result.original_bgr,
+            bld,
+            wall_color_bgr=wall_color_bgr,
+            wall_thickness_scale=wall_thickness_scale,
+            include_furniture=self._include_furniture,
         )
         self._update_viewer()
+
+    def _on_rebuild_3d(self):
+        """Sync labels from editor and rebuild 3D."""
+        if not self._result:
+            return
+        self.room_editor.sync_all_labels()
+        self._rebuild_3d(redecorate=True)
+        self.status_badge.set_state("success", "3D Rebuilt")
+        self.progress_msg.setText("Labels applied. 3D model regenerated with corrected room types.")
 
     def _on_wireframe_toggled(self, on: bool):
         if self._viewer3d:
@@ -893,16 +1156,7 @@ class BlueprintXWindow(QMainWindow):
 
     def _on_ceiling_toggled(self, on: bool):
         """Rebuild the 3D model with ceiling on or off."""
-        if not (self._result and self._result.building.walls):
-            return
-        from backend.engine.model3d.builder import Model3DBuilder
-        bld = self._result.building
-        h = self.slider_floor_h.value() / 10.0
-        bld.model_3d = Model3DBuilder(floor_height_m=h, show_ceiling=on).run(bld)
-        if bld.model_3d and self._viewer3d:
-            self.stat_verts.update_value(f"{bld.model_3d.vertex_count:,}")
-            self.stat_tris.update_value(f"{bld.model_3d.triangle_count:,}")
-            self._viewer3d.load_model(bld.model_3d)
+        self._rebuild_3d()
 
     def _on_reset_camera(self):
         if self._viewer3d:
@@ -911,15 +1165,7 @@ class BlueprintXWindow(QMainWindow):
     def _on_floor_height_changed(self, val: int):
         h = val / 10.0
         self._lbl_floor_h.setText(f"Floor Height: {h:.1f} m")
-        # Rebuild 3D model with new floor height
-        if self._result and self._result.building.walls:
-            from backend.engine.model3d.builder import Model3DBuilder
-            bld = self._result.building
-            bld.model_3d = Model3DBuilder(floor_height_m=h).run(bld)
-            if bld.model_3d and self._viewer3d:
-                self.stat_verts.update_value(f"{bld.model_3d.vertex_count:,}")
-                self.stat_tris.update_value(f"{bld.model_3d.triangle_count:,}")
-                self._viewer3d.load_model(bld.model_3d)
+        self._rebuild_3d()
 
     # ── View switching ────────────────────────────────────────────────────────
 

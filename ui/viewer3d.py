@@ -190,6 +190,8 @@ class Viewer3D(QOpenGLWidget):
         self._pan      = QVector3D(0.0, 0.0, 0.0)
         self._center   = (0.0, 0.0, 0.0)
         self._last_pos = QPoint()
+        self._camera_initialized = False
+        self._pending_reset = False
 
         # Rendering flags
         self._wireframe = False
@@ -210,9 +212,10 @@ class Viewer3D(QOpenGLWidget):
 
     # ── Public API ────────────────────────────────────────────────────────────
 
-    def load_model(self, model: Building3D) -> None:
+    def load_model(self, model: Building3D, reset_camera: bool = False) -> None:
         """Queue a Building3D for upload on the next paint cycle."""
         self._pending = model
+        self._pending_reset = reset_camera
         self.update()
 
     def set_wireframe(self, on: bool) -> None:
